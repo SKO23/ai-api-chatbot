@@ -42,6 +42,43 @@ body {
     color: #64748b;
     font-size: 14px;
 }
+
+/* Make chatbot area clearer */
+#chatbot-box {
+    border: 2px solid #ddd6fe !important;
+    border-radius: 16px !important;
+    background: #faf5ff !important;
+}
+
+/* Make input box more visible */
+#chat-input textarea {
+    background: #ffffff !important;
+    border: 2px solid #8b5cf6 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.10);
+    color: #111827 !important;
+    font-size: 16px !important;
+}
+
+#chat-input textarea::placeholder {
+    color: #475569 !important;
+    opacity: 1 !important;
+    font-size: 16px !important;
+}
+
+/* Make example prompts clearer */
+button[aria-label="Use example"] {
+    background: #ffffff !important;
+    border: 1.5px solid #ddd6fe !important;
+    color: #5b21b6 !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+}
+
+button[aria-label="Use example"]:hover {
+    background: #f5f3ff !important;
+    border-color: #8b5cf6 !important;
+}
 """
 
 @spaces.GPU
@@ -62,14 +99,17 @@ def chat_with_ai(message, history):
     except Exception as e:
         return f"Gemini API error: {str(e)}"
 
+
 with gr.Blocks(title="Gemini API Chatbot") as demo:
 
     with gr.Column(elem_id="main-card"):
         gr.Markdown("# 💬 Gemini API Chatbot", elem_id="title")
+
         gr.Markdown(
             "Ask a question and the app will call the Gemini API to generate an answer.",
             elem_id="subtitle"
         )
+
         gr.Markdown(
             "Built with Python, Gradio, Gemini API, GitHub and Hugging Face Spaces.",
             elem_id="note"
@@ -79,11 +119,13 @@ with gr.Blocks(title="Gemini API Chatbot") as demo:
             fn=chat_with_ai,
             chatbot=gr.Chatbot(
                 height=420,
-                label="Chatbot Conversation"
+                label="Chatbot Conversation",
+                elem_id="chatbot-box"
             ),
             textbox=gr.Textbox(
-                placeholder="Ask me something, for example: Explain AI in simple words",
-                label="Your question"
+                placeholder="Type your question here... e.g. Explain AI in simple words",
+                label="Your question",
+                elem_id="chat-input"
             ),
             examples=[
                 "Explain AI in 2 simple lines",
